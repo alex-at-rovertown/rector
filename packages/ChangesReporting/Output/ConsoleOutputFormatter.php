@@ -96,8 +96,8 @@ final class ConsoleOutputFormatter implements \Rector\ChangesReporting\Contract\
 
         $allChangeLogs = Arr::flatten($allChangeLogs);
         $allChangeLogs = array_unique($allChangeLogs);
-        $allChangeLogs = array_values($allChangeLogs);
         $allChangeLogs = Arr::sort($allChangeLogs);
+        $allChangeLogs = array_values($allChangeLogs);
 
         $this->outputStyle->writeln(json_encode($allChangeLogs));
     }
