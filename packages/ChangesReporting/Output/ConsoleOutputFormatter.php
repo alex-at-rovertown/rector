@@ -84,6 +84,8 @@ final class ConsoleOutputFormatter implements \Rector\ChangesReporting\Contract\
             }
             $message = \sprintf('<options=bold>%d) %s</>', ++$i, $relativeFilePath);
             $this->outputStyle->writeln($message);
+            $this->outputStyle->newline();
+            $this->outputStyle->writeln($fileDiff->getDiffConsoleFormatted());
             $rectorsChangelogsLines = $this->createRectorChangelogLines($fileDiff);
             if ($fileDiff->getRectorChanges() !== []) {
                 $this->outputStyle->writeln('<options=underscore>Applied rules:</>');
