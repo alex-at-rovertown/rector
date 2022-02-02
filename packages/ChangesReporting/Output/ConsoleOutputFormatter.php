@@ -158,6 +158,9 @@ final class ConsoleOutputFormatter implements \Rector\ChangesReporting\Contract\
     private function createRectorChangelogLines(\Rector\Core\ValueObject\Reporting\FileDiff $fileDiff) : array
     {
         $rectorsChangelogs = $this->rectorsChangelogResolver->resolveIncludingMissing($fileDiff->getRectorClasses());
+
+        $this->outputStyle->writeln(json_encode($rectorsChangelogs));
+
         $rectorsChangelogsLines = [];
         foreach ($rectorsChangelogs as $rectorClass => $changelog) {
             $rectorShortClass = (string) \RectorPrefix20220202\Nette\Utils\Strings::after($rectorClass, '\\', -1);
