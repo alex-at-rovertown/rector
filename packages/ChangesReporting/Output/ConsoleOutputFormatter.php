@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace Rector\ChangesReporting\Output;
 
+use \Illuminate\Support\Arr;
 use RectorPrefix20220202\Nette\Utils\Strings;
 use Rector\ChangesReporting\Annotation\RectorsChangelogResolver;
 use Rector\ChangesReporting\Contract\Output\OutputFormatterInterface;
