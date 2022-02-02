@@ -71,6 +71,9 @@ final class ConsoleOutputFormatter implements \Rector\ChangesReporting\Contract\
         $message = \sprintf('%d file%s with changes', \count($fileDiffs), \count($fileDiffs) === 1 ? '' : 's');
         $this->outputStyle->title($message);
         $i = 0;
+
+        $allChangeLogs = [];
+
         foreach ($fileDiffs as $fileDiff) {
             $relativeFilePath = $fileDiff->getRelativeFilePath();
             // append line number for faster file jump in diff
@@ -80,15 +83,22 @@ final class ConsoleOutputFormatter implements \Rector\ChangesReporting\Contract\
             }
             $message = \sprintf('<options=bold>%d) %s</>', ++$i, $relativeFilePath);
             $this->outputStyle->writeln($message);
-            $this->outputStyle->newline();
-            $this->outputStyle->writeln($fileDiff->getDiffConsoleFormatted());
             $rectorsChangelogsLines = $this->createRectorChangelogLines($fileDiff);
             if ($fileDiff->getRectorChanges() !== []) {
                 $this->outputStyle->writeln('<options=underscore>Applied rules:</>');
                 $this->outputStyle->listing($rectorsChangelogsLines);
                 $this->outputStyle->newline();
+
+                $allChangeLogs[] = $rectorsChangelogsLines;
             }
         }
+
+        $allChangeLogs = Arr::flatten($allChangeLogs);
+        $allChangeLogs = array_unique($allChangeLogs);
+        $allChangeLogs = array_values($allChangeLogs);
+        $allChangeLogs = Arr::sort($allChangeLogs);
+
+        $this->outputStyle->writeln(json_encode($allChangeLogs));
     }
     /**
      * @param SystemError[] $errors
